@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grizzly - American Restaurant | Amsterdam</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --accent: #c9a96e;
+            --accent-dark: #b8945f;
+            --text: #2d2d2d;
+            --text-light: #6b6b6b;
+            --bg: #faf9f7;
+            --bg-dark: #1a1a1a;
+            --white: #ffffff;
+            --border: #e8e4df;
+            --shadow: 0 4px 30px rgba(0,0,0,0.08);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.4s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 15px 5%;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        .logo-text {
+            color: var(--white);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo-text span {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 400;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            opacity: 0.8;
+            margin-top: -2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            padding: 5px 0;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+        }
+
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1920&q=80') center/cover;
+            opacity: 0.25;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: var(--white);
+            max-width: 900px;
+            padding: 0 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 24px;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 .accent-text {
+            color: var(--accent);
+            display: block;
+            font-style: italic;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.85;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-info {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .hero-info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .hero-info-item i {
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--white);
+            opacity: 0.6;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 100px 5%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            display: inline-block;
+            color: var(--accent);
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--primary);
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .section-desc {
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--white);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 4px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--accent);
+            border-radius: 4px;
+            z-index: -1;
+        }
+
+        .about-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            color: var(--primary);
+        }
+
+        .about-content p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+        }
+
+        .stat-item h3 {
+            font-size: 2rem;
+            color: var(--accent);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .stat-item p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Signature Dishes */
+        .signature-dishes {
+            background: var(--bg);
+        }
+
+        .dishes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .dish-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .dish-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .dish-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .dish-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 6px 16px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 2px;
+        }
+
+        .dish-content {
+            padding: 30px;
+        }
+
+        .dish-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .dish-desc {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .dish-price {
+            font-size: 1.3rem;
+            color: var(--accent);
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .btn-full-menu {
+            display: block;
+            width: fit-content;
+            margin: 60px auto 0;
+            padding: 16px 50px;
+            background: var(--primary);
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 600;
+            border: 2px solid var(--primary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-full-menu:hover {
+            background: transparent;
+            color: var(--primary);
+        }
+
+        /* Full Menu Modal */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            overflow-y: auto;
+        }
+
+        .menu-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .menu-modal {
+            background: var(--bg);
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 8px;
+            position: relative;
+            margin: 40px auto;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+            animation: modalSlide 0.4s ease;
+        }
+
+        @keyframes modalSlide {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .menu-header {
+            background: var(--primary);
+            color: var(--white);
+            padding: 40px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .menu-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .menu-header p {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .menu-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .menu-close:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .menu-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            padding: 0 40px;
+            background: var(--primary);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 130px;
+            z-index: 10;
+            flex-wrap: wrap;
+        }
+
+        .menu-tab {
+            padding: 15px 25px;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.6);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .menu-tab:hover, .menu-tab.active {
+            color: var(--accent);
+        }
+
+        .menu-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20%;
+            width: 60%;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .menu-body {
+            padding: 40px;
+        }
+
+        .menu-section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .menu-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .menu-category-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
+        }
+
+        .menu-item:hover {
+            background: rgba(201, 169, 110, 0.03);
+            margin: 0 -20px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .menu-item-info h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .menu-item-info p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            max-width: 500px;
+        }
+
+        .menu-item-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--accent);
+            font-weight: 700;
+            white-space: nowrap;
+            margin-left: 20px;
+        }
+
+        .menu-note {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-light);
+            font-style: italic;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+        }
+
+        /* Gallery */
+        .gallery {
+            background: var(--white);
+            padding: 0;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 26, 26, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay span {
+            color: var(--white);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 10px;
+        }
+
+        /* Reviews */
+        .reviews {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .reviews .section-label {
+            color: var(--accent);
+        }
+
+        .reviews .section-title {
+            color: var(--white);
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .review-card {
+            background: rgba(255,255,255,0.05);
+            padding: 35px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+
+        .review-card:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-5px);
+        }
+
+        .review-stars {
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .review-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        .review-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .review-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .review-author-info h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .review-author-info p {
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        /* Info Section */
+        .info-section {
+            background: var(--white);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .info-card {
+            text-align: center;
+            padding: 40px 30px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .info-card:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow);
+        }
+
+        .info-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(201, 169, 110, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.4rem;
+            color: var(--accent);
+        }
+
+        .info-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .info-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .info-card a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary);
+            color: var(--white);
+            padding: 60px 5% 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto 50px;
+        }
+
+        .footer-brand h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .footer-brand p {
+            opacity: 0.7;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .footer-links h4 {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            text-align: center;
+            opacity: 0.5;
+            font-size: 0.85rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--primary);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .about-image {
+                order: -1;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(26, 26, 26, 0.98);
+                flex-direction: column;
+                padding: 30px;
+                gap: 25px;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .hero-info {
+                gap: 20px;
+            }
+            .dishes-grid {
+                grid-template-columns: 1fr;
+            }
+            .menu-tabs {
+                padding: 0 20px;
+                top: 110px;
+            }
+            .menu-tab {
+                padding: 12px 15px;
+                font-size: 0.7rem;
+            }
+            .menu-body {
+                padding: 20px;
+            }
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar for Menu */
+        .menu-modal::-webkit-scrollbar {
+            width: 8px;
+        }
+        .menu-modal::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        .menu-modal::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="logo">
+            <div class="logo-icon">🐻</div>
+            <div class="logo-text">
+                Grizzly
+                <span>American Restaurant</span>
+            </div>
+        </a>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#signature">Menu</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <div class="hero-badge">Since 2015</div>
+            <h1>
+                Authentic American
+                <span class="accent-text">Comfort Food</span>
+            </h1>
+            <p class="hero-subtitle">
+                Experience the bold flavors of America in the heart of Amsterdam. 
+                Crafted burgers, slow-smoked ribs, and ice-cold beers in a cozy, lively atmosphere.
+            </p>
+            <div class="hero-info">
+                <div class="hero-info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Warmoesstraat 64-H, Amsterdam</span>
+                </div>
+                <div class="hero-info-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Open Daily 11AM - Late</span>
+                </div>
+                <div class="hero-info-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+31 20 221 4432</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator" onclick="document.getElementById('about').scrollIntoView()">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="about-grid">
+            <div class="about-content">
+                <span class="section-label">Our Story</span>
+                <h2>A Taste of America in Amsterdam</h2>
+                <p>
+                    Nestled in the vibrant Warmoesstraat, Grizzly brings the soul of American dining to the heart of Amsterdam. 
+                    Our kitchen celebrates the rich traditions of American comfort food — from flame-grilled burgers and 
+                    slow-smoked spare ribs to hearty breakfasts and craft beers.
+                </p>
+                <p>
+                    Every dish is prepared with passion, using quality ingredients and time-honored recipes. 
+                    Whether you are craving a classic Full English Breakfast, a juicy Black Angus Burger, or our 
+                    legendary fall-off-the-bone ribs, Grizzly delivers an unforgettable dining experience.
+                </p>
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <h3>4.2</h3>
+                        <p>Google Rating</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>2,400+</h3>
+                        <p>Happy Reviews</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>€20-30</h3>
+                        <p>Per Person</p>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80" alt="Grizzly Restaurant Interior">
+            </div>
+        </div>
+    </section>
+
+    <!-- Signature Dishes -->
+    <section class="section signature-dishes" id="signature">
+        <div class="section-header">
+            <span class="section-label">Chef's Selection</span>
+            <h2 class="section-title">Signature Dishes</h2>
+            <p class="section-desc">Our most loved creations, crafted with care and served with pride.</p>
+        </div>
+        <div class="dishes-grid">
+            <div class="dish-card">
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80" alt="Classic Grizzly Black Angus Burger" class="dish-image">
+                <span class="dish-badge">Popular</span>
+                <div class="dish-content">
+                    <h3 class="dish-name">Classic Grizzly Black Angus Burger</h3>
+                    <p class="dish-desc">Premium Black Angus beef, cheddar, bacon, caramelized onions, tomato, pickles & homemade Grizzly sauce</p>
+                    <div class="dish-price">€16.95</div>
+                </div>
+            </div>
+            <div class="dish-card">
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80" alt="Spare Ribs" class="dish-image">
+                <span class="dish-badge">Popular</span>
+                <div class="dish-content">
+                    <h3 class="dish-name">Slow-Smoked Spare Ribs</h3>
+                    <p class="dish-desc">Slow-cooked spare ribs marinated in our signature BBQ sauce. So moist, with extra sauce on the side.</p>
+                    <div class="dish-price">€23.95</div>
+                </div>
+            </div>
+            <div class="dish-card">
+                <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600&q=80" alt="Grilled Rib Eye Steak" class="dish-image">
+                <div class="dish-content">
+                    <h3 class="dish-name">Grilled Rib Eye Steak</h3>
+                    <p class="dish-desc">Premium rib eye steak grilled to perfection, served with homemade chimichurri sauce and baby potatoes.</p>
+                    <div class="dish-price">€24.95</div>
+                </div>
+            </div>
+            <div class="dish-card">
+                <img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=600&q=80" alt="Pulled Pork Burger" class="dish-image">
+                <span class="dish-badge">Popular</span>
+                <div class="dish-content">
+                    <h3 class="dish-name">Pulled Pork Burger</h3>
+                    <p class="dish-desc">Tender pulled pork, caramelized onions, tomato, lettuce, pickles & smoky BBQ sauce on a brioche bun.</p>
+                    <div class="dish-price">€16.95</div>
+                </div>
+            </div>
+            <div class="dish-card">
+                <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=600&q=80" alt="Roasted Half Chicken" class="dish-image">
+                <div class="dish-content">
+                    <h3 class="dish-name">Roasted Half Chicken</h3>
+                    <p class="dish-desc">Half chicken roasted to golden perfection with homemade garlic butter, served with seasonal vegetables.</p>
+                    <div class="dish-price">€17.50</div>
+                </div>
+            </div>
+            <div class="dish-card">
+                <img src="https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=600&q=80" alt="Fish and Chips" class="dish-image">
+                <div class="dish-content">
+                    <h3 class="dish-name">Fish and Chips</h3>
+                    <p class="dish-desc">Crispy beer-battered cod served with golden fries, remoulade sauce, and fresh lemon.</p>
+                    <div class="dish-price">€15.95</div>
+                </div>
+            </div>
+        </div>
+        <button class="btn-full-menu" onclick="openMenu()">View Full Menu</button>
+    </section>
+
+    <!-- Full Menu Modal -->
+    <div class="menu-overlay" id="menuOverlay" onclick="closeMenu(event)">
+        <div class="menu-modal" onclick="event.stopPropagation()">
+            <div class="menu-header">
+                <button class="menu-close" onclick="closeMenu()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2>Our Menu</h2>
+                <p>Authentic American flavors, crafted with passion</p>
+            </div>
+            <div class="menu-tabs">
+                <button class="menu-tab active" onclick="switchTab('breakfast')">Breakfast & Lunch</button>
+                <button class="menu-tab" onclick="switchTab('burgers')">Burgers</button>
+                <button class="menu-tab" onclick="switchTab('mains')">Main Courses</button>
+                <button class="menu-tab" onclick="switchTab('salads')">Salads & Soups</button>
+                <button class="menu-tab" onclick="switchTab('sides')">Sides & Sauces</button>
+                <button class="menu-tab" onclick="switchTab('desserts')">Desserts</button>
+            </div>
+            <div class="menu-body">
+                <!-- Breakfast & Lunch -->
+                <div class="menu-section active" id="breakfast">
+                    <h3 class="menu-category-title">Breakfast & Lunch <span style="font-size:0.7rem; color:var(--text-light); font-weight:400;">(Until 16:00)</span></h3>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Full English Breakfast</h4>
+                            <p>Toast, bacon, eggs, beans, roasted tomatoes and sausage</p>
+                        </div>
+                        <div class="menu-item-price">€12.50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Eggs on Toast</h4>
+                            <p>Fried / Scrambled / Omelette</p>
+                        </div>
+                        <div class="menu-item-price">€9.50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Super Steak Sandwich</h4>
+                            <p>Steak, beef brisket, cheddar, pickles and Grizzly sauce</p>
+                        </div>
+                        <div class="menu-item-price">€19.50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Goat Cheese Sandwich</h4>
+                            <p>With beetroot, honey and mixed nuts</p>
+                        </div>
+                        <div class="menu-item-price">€17.50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Chicken Sandwich</h4>
+                            <p>Fried chicken with garlic & sriracha mayo</p>
+                        </div>
+                        <div class="menu-item-price">€14.00</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Shrimp Sandwich</h4>
+                            <p>Fried shrimps with homemade remoulade sauce</p>
+                        </div>
+                        <div class="menu-item-price">€14.50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Grilled Ham Sandwich</h4>
+                            <p>Grilled ham with honey-mustard sauce</p>
+                        </div>
+                        <div class="menu-item-price">€13.50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Extra Toppings</h4>
+                            <p>Cheese / Bacon / Avocado / Jalapeños</p>
+                        </div>
+                        <div class="menu-item-price">+€2.00</div>
+                    </div>
+                </div>
+
+                <!-- Burgers -->
+                <div class="menu-section" id="burgers">
+                    <h3 class="menu-category-title">Burgers & Sandwiches</h3>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Classic Grizzly Black Angus Burger</h4>
+                            <p>Cheddar, bacon, caramelized onions, tomato, pickles & homemade Grizzly sauce</p>
+                        </div>
+                        <div class="menu-item-price">€16.95</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Impossible Veggie Burger</h4>
+                            <p>Cheddar, caramelized onions, tomato, pickles & homemade Grizzly sauce</p>
+                        </div>
+                        <div class="menu-item-price">€15.95</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Pulled Pork Burger</h4>
+                            <p>Caramelized onions, tomato, lettuce, pickles & BBQ sauce</p>
+                        </div>
+                        <div class="menu-item-price">€16.95</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Chicken Burger</h4>
+                            <p>Lettuce, tomato, cucumber & homemade sauce</p>
+                        </div>
+                        <div class="menu-item-price">€15.95</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Super Steak Sandwich</h4>
+                            <p>Steak, beef brisket, cheddar, pickles and Grizzly sauce</p>
+                        </div>
+                        <div class="menu-item-price">€19.50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Extra Toppings</h4>
+                            <p>Cheese / Bacon / Avocado / Jalapeños / Fried Egg</p>
+                        </div>
+                        <div class="menu-item-price">+€2.00</div>
+                    </div>
+                </div>
+
+                <!-- Main Courses -->
+                <div class="menu-section" id="mains">
+                    <h3 class="menu-category-title">Main Courses</h3>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Grilled Rib Eye Steak</h4>
+                            <p>With homemade chimichurri sauce, baby potatoes, green beans</p>
+                        </div>
+                        <div class="menu-item-price">€24.95</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Grilled Tenderloin Steak</h4>
+                            <p>With peppercorn sauce</p>
+                        </div>
+                        <div class="menu-item-price">€26.95</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Roasted Half Chicken</h4>
+                            <p>Roasted with homemade garlic butter</p>
+                        </div>
+                        <div class="menu-item-price">€17.50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Spare Ribs</h4>
+                            <p>Slow-cooked spare ribs marinated in BBQ sauce</p>
+                        </div>
+                        <div class="menu-item-price">€23.95</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Beef Brisket</h4>
+                            <p>Slow cooked, served with baby potatoes, green beans & smoked garlic gravy</p>
+                        </div>
+                        <div class="menu-item-price">€24.95</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Porkchop</h4>
+                            <p>With honey mustard sauce</p>
+                        </div>
+                        <div class="menu-item-price">€23.95</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Fish and Chips</h4>
+                            <p>With remoulade sauce or tartar sauce</p>
+                        </div>
+                        <div class="menu-item-price">€15.95</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Mac & Cheese</h4>
+                            <p>Macaroni with blue cheese, grana padano, cheddar cheese & topped with mixed lettuce</p>
+                        </div>
+                        <div class="menu-item-price">€12.50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Hotdog Special</h4>
+                            <p>With sauerkraut, onions, cheddar and mustard sauce</p>
+                        </div>
+                        <div class="menu-item-price">€12.50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Super Nachos</h4>
+                            <p>Pulled pork, jalapeños, cheddar, guacamole and sour cream</p>
+                        </div>
+                        <div class="menu-item-price">€16.95</div>
+                    </div>
+                </div>
+
+                <!-- Salads & Soups -->
+                <div class="menu-section" id="salads">
+                    <h3 class="menu-category-title">Salads & Soups</h3>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Grilled Chicken Salad</h4>
+                            <p>Little gem, tomato, red onion, baby potato with black pepper & manchego dressing</p>
+                        </div>
+                        <div class="menu-item-price">€16.95</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Superfood Salad</h4>
+                            <p>Goat cheese, beetroot, edamame beans, pearl barley, tomato, carrot, radish, roasted mixed nuts & vinaigrette</p>
+                        </div>
+                        <div class="menu-item-price">€17.95</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Salmon Salad</h4>
+                            <p>Smoked salmon, cream cheese, red onion, bell pepper, boiled egg, capers & avocado</p>
+                        </div>
+                        <div class="menu-item-price">€17.95</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Caesar Salad</h4>
+                            <p>Little gem, parmesan, chicken, boiled egg, anchovy, bacon & croutons</p>
+                        </div>
+                        <div class="menu-item-price">€15.95</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Soup of the Day</h4>
+                            <p>Ask the staff for today's special</p>
+                        </div>
+                        <div class="menu-item-price">€7.50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Special of the Day</h4>
+                            <p>Ask the staff for today's special</p>
+                        </div>
+                        <div class="menu-item-price">Market Price</div>
+                    </div>
+                </div>
+
+                <!-- Sides & Sauces -->
+                <div class="menu-section" id="sides">
+                    <h3 class="menu-category-title">Side Dishes</h3>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Fries</h4>
+                        </div>
+                        <div class="menu-item-price">€5.00</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Baby Potatoes</h4>
+                        </div>
+                        <div class="menu-item-price">€5.00</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Onion Rings</h4>
+                        </div>
+                        <div class="menu-item-price">€5.50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Mixed Salad</h4>
+                        </div>
+                        <div class="menu-item-price">€6.50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Coleslaw</h4>
+                        </div>
+                        <div class="menu-item-price">€6.50</div>
+                    </div>
+
+                    <h3 class="menu-category-title" style="margin-top:40px;">Sauces</h3>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Aioli</h4>
+                        </div>
+                        <div class="menu-item-price">€2.00</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>BBQ Sauce</h4>
+                        </div>
+                        <div class="menu-item-price">€2.00</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Garlic Butter</h4>
+                        </div>
+                        <div class="menu-item-price">€2.00</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Homemade Grizzly Sauce</h4>
+                        </div>
+                        <div class="menu-item-price">€2.00</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Chimichurri</h4>
+                        </div>
+                        <div class="menu-item-price">€2.00</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Chili Sauce</h4>
+                        </div>
+                        <div class="menu-item-price">€2.00</div>
+                    </div>
+                </div>
+
+                <!-- Desserts -->
+                <div class="menu-section" id="desserts">
+                    <h3 class="menu-category-title">Sweets & Desserts</h3>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Brownie</h4>
+                            <p>Rich chocolate brownie</p>
+                        </div>
+                        <div class="menu-item-price">Ask Staff</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Dutch Apple Pie</h4>
+                            <p>Traditional Dutch apple pie with cinnamon</p>
+                        </div>
+                        <div class="menu-item-price">Ask Staff</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Special Dessert</h4>
+                            <p>Ask the staff for today's dessert selection</p>
+                        </div>
+                        <div class="menu-item-price">Ask Staff</div>
+                    </div>
+                </div>
+
+                <div class="menu-note">
+                    All prices are in Euros (€) and include VAT. Menu items and prices are subject to change.
+                    <br>Please inform our staff of any allergies or dietary requirements.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery -->
+    <section class="section gallery" id="gallery">
+        <div class="section-header" style="padding: 100px 5% 60px; background: var(--white);">
+            <span class="section-label">Visual Feast</span>
+            <h2 class="section-title">From Our Kitchen</h2>
+            <p class="section-desc">A glimpse of what awaits you at Grizzly.</p>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80" alt="Burger">
+                <div class="gallery-overlay"><span>Black Angus Burger</span></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80" alt="Ribs">
+                <div class="gallery-overlay"><span>BBQ Spare Ribs</span></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=600&q=80" alt="Beer">
+                <div class="gallery-overlay"><span>Craft Beer</span></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=600&q=80" alt="Pulled Pork">
+                <div class="gallery-overlay"><span>Pulled Pork</span></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=600&q=80" alt="Onion Rings">
+                <div class="gallery-overlay"><span>Onion Rings</span></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1579208575657-c595a05383b7?w=600&q=80" alt="Fish and Chips">
+                <div class="gallery-overlay"><span>Fish & Chips</span></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=600&q=80" alt="Chicken">
+                <div class="gallery-overlay"><span>Roasted Chicken</span></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=600&q=80" alt="Hot Dog">
+                <div class="gallery-overlay"><span>Hot Dogs</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="section reviews" id="reviews">
+        <div class="section-header">
+            <span class="section-label">Testimonials</span>
+            <h2 class="section-title">What Our Guests Say</h2>
+            <p class="section-desc" style="color: rgba(255,255,255,0.7);">Over 2,400 reviews and counting.</p>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                </div>
+                <p class="review-text">"We stopped by Grizzly a few times during our visit to Amsterdam and really enjoyed it each time. It's a small, cosy bar with a lively atmosphere and friendly, attentive staff."</p>
+                <div class="review-author">
+                    <div class="review-avatar">K</div>
+                    <div class="review-author-info">
+                        <h4>Kevin</h4>
+                        <p>Local Guide · 34 reviews</p>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="review-text">"Very nice food and cozy place. Prices are nice, good food quality, cold beer and nice service. I recommend the place, and the toilets were clean. Thank you!"</p>
+                <div class="review-author">
+                    <div class="review-avatar">L</div>
+                    <div class="review-author-info">
+                        <h4>Leticia</h4>
+                        <p>Local Guide · 53 reviews</p>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="review-text">"Great restaurant in the heart of tourist alley. Pricing is on point. Great selection of hard liquors and good beers available. Ribs were to die for, so moist and with extra sauce. Delish!"</p>
+                <div class="review-author">
+                    <div class="review-avatar">A</div>
+                    <div class="review-author-info">
+                        <h4>Ali Lloyd</h4>
+                        <p>Local Guide · 670 reviews</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info / Contact -->
+    <section class="section info-section" id="contact">
+        <div class="section-header">
+            <span class="section-label">Get in Touch</span>
+            <h2 class="section-title">Visit Us</h2>
+            <p class="section-desc">We would love to welcome you to Grizzly.</p>
+        </div>
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <h3>Location</h3>
+                <p>Warmoesstraat 64-H<br>1012 JH Amsterdam<br>Netherlands</p>
+            </div>
+            <div class="info-card">
+                <div class="info-icon"><i class="fas fa-clock"></i></div>
+                <h3>Opening Hours</h3>
+                <p>Monday - Sunday<br>11:00 AM - Late Night<br>Dine-in & Takeaway</p>
+            </div>
+            <div class="info-card">
+                <div class="info-icon"><i class="fas fa-phone"></i></div>
+                <h3>Contact</h3>
+                <p><a href="tel:+31202214432">+31 20 221 4432</a><br>WiFi: FREEWIFI GRIZZLY</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Grizzly</h3>
+                <p>Authentic American comfort food in the heart of Amsterdam. Serving burgers, ribs, steaks, and cold beers since 2015. Great beer selection, great coffee, great dessert, and sports.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-tripadvisor"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#signature">Menu</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#reviews">Reviews</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#">Dine-in</a></li>
+                    <li><a href="#">Takeaway</a></li>
+                    <li><a href="#">Wheelchair Accessible</a></li>
+                    <li><a href="#">Sports Viewing</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p> Grizzly American Restaurant, Amsterdam. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Menu Modal Functions
+        function openMenu() {
+            const overlay = document.getElementById('menuOverlay');
+            overlay.style.display = 'flex';
+            setTimeout(() => overlay.classList.add('active'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu(event) {
+            if (event && event.target !== document.getElementById('menuOverlay')) return;
+            const overlay = document.getElementById('menuOverlay');
+            overlay.classList.remove('active');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 400);
+        }
+
+        // Tab switching
+        function switchTab(tabId) {
+            // Remove active from all tabs
+            document.querySelectorAll('.menu-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.menu-section').forEach(section => section.classList.remove('active'));
+
+            // Add active to clicked tab
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeMenu();
+        });
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    document.getElementById('navLinks').classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
